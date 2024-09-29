@@ -1,0 +1,152 @@
+/* src/components/TestimonialsSection.css */
+.testimonials {
+  text-align: center;
+  padding: 50px 0;
+  background: linear-gradient(135deg, #f8f9fa, #e0e7ff);
+  position: relative;
+  overflow: hidden;
+}
+
+.testimonials h2 {
+  font-size: 2.5rem;
+  margin-bottom: 40px;
+  color: #333;
+  font-weight: 700;
+  position: relative;
+  z-index: 1;
+}
+
+.testimonial {
+  font-size: 1.2rem;
+  color: #fff;
+  padding: 30px;
+  background-color: #007bff;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  border-radius: 15px;
+  margin: 0 auto;
+  max-width: 600px;
+  transition: transform 0.5s ease, box-shadow 0.5s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.testimonial p:first-child {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.testimonial p:last-child {
+  font-style: italic;
+  font-weight: 500;
+}
+
+.testimonial:hover {
+  transform: scale(1.05);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+}
+
+.custom-prev-arrow,
+.custom-next-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.5rem;
+  color: #007bff;
+  background-color: #fff;
+  border-radius: 50%;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 1;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.custom-prev-arrow {
+  left: 20px;
+}
+
+.custom-next-arrow {
+  right: 20px;
+}
+
+.custom-prev-arrow:hover,
+.custom-next-arrow:hover {
+  background-color: #007bff;
+  color: #fff;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Media Queries */
+
+/* Small screens (max-width: 767px) */
+@media (max-width: 767px) {
+  .testimonials h2 {
+    font-size: 1.8rem;
+  }
+
+  .testimonial {
+    font-size: 1rem;
+    padding: 20px;
+  }
+
+  .custom-prev-arrow,
+  .custom-next-arrow {
+    font-size: 2rem;
+    padding: 8px;
+  }
+}
+
+/* Medium screens (min-width: 768px and max-width: 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .testimonials h2 {
+    font-size: 2rem;
+  }
+
+  .testimonial {
+    font-size: 1.1rem;
+    padding: 25px;
+  }
+
+  .custom-prev-arrow,
+  .custom-next-arrow {
+    font-size: 2.5rem;
+    padding: 10px;
+  }
+}
+
+/* Large screens (min-width: 1024px and max-width: 1439px) */
+@media (min-width: 1024px) and (max-width: 1439px) {
+  .testimonials h2 {
+    font-size: 2.3rem;
+  }
+
+  .testimonial {
+    font-size: 1.2rem;
+    padding: 30px;
+  }
+
+  .custom-prev-arrow,
+  .custom-next-arrow {
+    font-size: 2.8rem;
+    padding: 12px;
+  }
+}
+
+/* Extra large screens (min-width: 1440px) */
+@media (min-width: 1440px) {
+  .testimonials h2 {
+    font-size: 2.5rem;
+  }
+
+  .testimonial {
+    font-size: 1.2rem;
+    padding: 30px;
+  }
+
+  .custom-prev-arrow,
+  .custom-next-arrow {
+    font-size: 1.5rem;
+    padding: 10px;
+  }
+}

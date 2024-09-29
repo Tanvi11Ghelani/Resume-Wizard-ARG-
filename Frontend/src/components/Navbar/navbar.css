@@ -1,0 +1,286 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  scroll-behavior: smooth;
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+}
+
+/* Navbar Container */
+.navbar-container {
+  height: 80px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ccd7e8;
+  padding: 0 20px;
+  position: sticky; /* 'fixed' can be used as well */
+  top: 0;
+  width: 100%;
+  z-index: 100;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add a shadow for separation */
+  transition: all 0.3s ease; /* Smooth transition */
+}
+
+.navbar-container.sticky {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* More pronounced shadow when scrolling */
+  background-color: #cce2e8; /* Ensure the background color stays consistent */
+}
+
+/* Logo */
+.logo {
+  cursor: pointer;
+}
+
+.logo-img {
+  margin-left: 100px;
+  width: 150px;
+  height: 40px;
+}
+
+/* Navigation Links */
+.navLinks {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: 20px;
+}
+
+.links {
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+}
+
+.links a {
+  color: #000;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0 26px;
+  font-size: 20px;
+  position: relative;
+  overflow: hidden;
+  transition: color 0.3s, transform 0.3s;
+}
+
+.links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  width: 0;
+  height: 2px;
+  background: #3e94e4;
+  transition: width 0.3s ease;
+}
+.links a:hover {
+  color: #3e94e4;
+}
+.links a::before {
+  transition: transform 0.5s ease;
+}
+
+.links a:hover::before {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+.links a.active {
+  color: #3e94e4;
+  font-weight: bold;
+}
+
+.links a:hover::after,
+.links a.active::after {
+  width: 100%;
+}
+
+.BTN {
+  display: flex;
+  gap: 20px;
+}
+
+.loginBtn,
+.signupBtn {
+  background-color: #3e94e4;
+  border: none;
+  color: white;
+  padding: 8px 12px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 0.4s, color 0.4s, border 0.4s;
+}
+
+.loginBtn:hover,
+.signupBtn:hover {
+  background-color: #7450fe;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.loginBtn:active,
+.signupBtn:active {
+  background-color: #3e94e4;
+  transform: translateY(1.2px);
+}
+
+.loginBtn:disabled,
+.signupBtn:disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+  border: 2px solid #999;
+}
+
+/* Hamburger Menu */
+.hamburger {
+  display: none;
+  cursor: pointer;
+}
+
+.hamburger svg {
+  width: 30px;
+  height: 30px;
+  color: white;
+}
+
+/* Media Queries */
+
+/* For devices with max-width: 767px (Mobile) */
+@media (max-width: 767px) {
+  .navLinks {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 55px;
+    left: 0;
+    width: 100%;
+    background-color: #fff;
+    padding: 10px 0;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+  }
+
+  .navLinks.showmenu {
+    display: flex;
+  }
+
+  .links {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .BTN {
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 10px;
+  }
+
+  .hamburger {
+    display: block;
+  }
+
+  .logo-img {
+    width: 100px;
+  }
+
+  .links a {
+    font-size: 16px;
+    padding: 10px;
+  }
+
+  .loginBtn,
+  .signupBtn {
+    padding: 5px 8px;
+    font-size: 14px;
+  }
+}
+
+/* For devices with min-width: 768px and max-width: 1023px (Tablets) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .logo-img {
+    width: 120px;
+  }
+
+  .navLinks {
+    gap: 10px;
+  }
+
+  .links a {
+    padding: 0 15px;
+    font-size: 18px;
+  }
+
+  .loginBtn,
+  .signupBtn {
+    padding: 6px 10px;
+    font-size: 14px;
+  }
+
+  .hamburger {
+    display: block;
+  }
+
+  .navLinks.showmenu {
+    display: flex;
+  }
+
+  .navLinks {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 55px;
+    left: 0;
+    width: 100%;
+    background-color: #fff;
+    padding: 10px 0;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+  }
+}
+
+/* For devices with min-width: 1024px and max-width: 1439px (Small Desktops / Large Tablets) */
+@media (min-width: 1024px) and (max-width: 1439px) {
+  .logo-img {
+    width: 140px;
+  }
+
+  .navLinks {
+    gap: 12px;
+  }
+
+  .links a {
+    padding: 0 20px;
+    font-size: 18px;
+  }
+
+  .loginBtn,
+  .signupBtn {
+    padding: 7px 11px;
+    font-size: 15px;
+  }
+}
+
+/* For devices with min-width: 1440px and above (Large Desktops) */
+@media (min-width: 1440px) {
+  .logo-img {
+    width: 150px;
+  }
+
+  .navLinks {
+    gap: 15px;
+  }
+
+  .links a {
+    padding: 0 26px;
+    font-size: 20px;
+  }
+
+  .loginBtn,
+  .signupBtn {
+    padding: 8px 12px;
+    font-size: 16px;
+  }
+}
