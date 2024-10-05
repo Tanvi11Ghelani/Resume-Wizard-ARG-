@@ -1,26 +1,90 @@
 import express from "express";
-import fetch from "node-fetch";
 
 const router = express.Router();
 
-// Helper function to apply corrections
-const applyCorrections = (text, matches) => {
-  let correctedText = text;
-  // Sort matches by offset in reverse order to avoid replacing at incorrect indices
-  matches.sort((a, b) => b.offset - a.offset);
-  matches.forEach((match) => {
-    const startIndex = match.offset;
-    const endIndex = match.offset + match.length;
-    const replacement = match.replacements[0]?.value || ""; // Use the first suggested correction
-    correctedText =
-      correctedText.slice(0, startIndex) +
-      replacement +
-      correctedText.slice(endIndex);
-  });
-  return correctedText;
+// Simple grammar correction logic (for example purposes)
+const verbs = {
+  go: { past: "went", present: "goes", future: "will go" },
+  be: { past: "was/were", present: "is/are", future: "will be" },
+  do: { past: "did", present: "does", future: "will do" },
+  have: { past: "had", present: "has", future: "will have" },
+  // Add more verbs here
 };
 
-router.post("/check", async (req, res) => {
+// Helper function to detect the tense of the sentence
+const detectTense = (sentence) => {
+  const words = sentence.split(" ");
+  for (let i = 0; i < words.length; i++) {
+    const word = words[i].toLowerCase();
+    for (let verb in verbs) {
+      if (verbs[verb].past.includes(word)) return "past";
+      if (verbs[verb].present.includes(word)) return "present";
+      if (verbs[verb].future.includes(word)) return "future";
+    }
+  }
+  return "unknown";
+};
+
+// Helper function to check subject-verb agreement
+// Updated function to check subject-verb agreement for "I", "he", "she", etc.
+const checkSubjectVerbAgreement = (sentence) => {
+  const singularSubjects = ["he", "she", "it", "i"];
+  const pluralSubjects = ["they", "we", "you"];
+  const words = sentence.toLowerCase().split(" ");
+
+  let subject = words[0];
+  let verb = words[1];
+
+  // Handle "I" special case
+  if (subject === "i" && verb === "are") {
+    return {
+      error: true,
+      correction: "am",
+      message: `"I" should be paired with "am"`,
+    };
+  }
+
+  // Other singular/plural agreement checks
+  if (
+    singularSubjects.includes(subject) &&
+    verb !== "is" &&
+    verb.endsWith("s")
+  ) {
+    return {
+      error: true,
+      correction: "is",
+      message: `Subject "${subject}" should pair with "is"`,
+    };
+  } else if (pluralSubjects.includes(subject) && !verb.endsWith("s")) {
+    return {
+      error: true,
+      correction: verb + "s",
+      message: `Subject "${subject}" should pair with "${verb + "s"}"`,
+    };
+  } else {
+    return { error: false, message: "Correct subject-verb agreement" };
+  }
+};
+
+// Updated function to apply corrections
+const applyCorrections = (text) => {
+  const subjectVerbAgreement = checkSubjectVerbAgreement(text);
+
+  let correctedText = text;
+
+  // Apply correction for subject-verb agreement
+  if (subjectVerbAgreement.error) {
+    correctedText = correctedText.replace(
+      "are",
+      subjectVerbAgreement.correction
+    );
+  }
+
+  return { correctedText, subjectVerbAgreement };
+};
+
+// POST route to check grammar
+router.post("/check", (req, res) => {
   const { text } = req.body;
 
   if (!text) {
@@ -30,41 +94,20 @@ router.post("/check", async (req, res) => {
   }
 
   try {
-    // Send a request to the LanguageTool API for grammar checking
-    const response = await fetch("https://api.languagetool.org/v2/check", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-      },
-      body: new URLSearchParams({
-        text,
-        language: "en-US", // Set the language to US English
-      }),
-    });
+    // Apply grammar corrections
+    const { correctedText, tense, subjectVerbAgreement } =
+      applyCorrections(text);
 
-    const data = await response.json();
-
-    // If there are grammar mistakes (matches)
-    if (data.matches.length > 0) {
-      const correctedText = applyCorrections(text, data.matches);
-      return res.json({
-        success: true,
-        originalText: text,
-        correctedText: correctedText,
-        matches: data.matches, // Optional: return matches for reference
-      });
-    }
-
-    // No corrections needed
     return res.json({
       success: true,
       originalText: text,
-      correctedText: text,
-      message: "No grammar issues found.",
+      correctedText,
+      tense,
+      subjectVerbAgreement,
     });
   } catch (error) {
     console.error("Error checking text:", error);
-    res.status(500).json({ message: "Error checking text" });
+    return res.status(500).json({ message: "Error processing grammar check" });
   }
 });
 

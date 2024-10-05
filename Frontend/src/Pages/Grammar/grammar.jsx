@@ -30,14 +30,11 @@ const Textarea = () => {
       );
       const data = response.data;
 
-      const correctedText = data.matches.reduce((acc, match) => {
-        const startIndex = match.offset;
-        const endIndex = match.offset + match.length;
-        const replacement = match.replacements[0]?.value || "";
-        return acc.slice(0, startIndex) + replacement + acc.slice(endIndex);
-      }, text);
-
-      setText(correctedText);
+      if (data.correctedText !== text) {
+        setText(data.correctedText);
+      } else {
+        alert("No grammar issues found.");
+      }
     } catch (error) {
       console.error("Error correcting text", error);
     }
