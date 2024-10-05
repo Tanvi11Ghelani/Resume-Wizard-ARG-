@@ -1,4 +1,5 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
+import router from "express";
 
 const experienceSchema = new mongoose.Schema({
   jobTitle: { type: String, required: true },
@@ -51,6 +52,6 @@ const profileSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Profile = mongoose.model("Profile", profileSchema);
+const Profile = new mongoose.model("Profile", profileSchema);
 
-module.exports = Profile;
+export default Profile;

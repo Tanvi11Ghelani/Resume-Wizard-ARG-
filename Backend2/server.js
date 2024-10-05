@@ -8,6 +8,7 @@ import passport from "passport";
 import session from "express-session";
 import cors from "cors";
 import emailRoutes from "./routes/emailRoutes.js";
+import resumeRoutes from "./routes/resumeRoutes.js"
 
 dotenv.config();
 
@@ -49,6 +50,8 @@ app.use("/api/auth", authRoutes);
 app.use("/api/text", textRoutes);
 
 app.use("/api/email", emailRoutes);
+
+app.use("/api/resume",resumeRoutes)
 
 // Error handling middleware
 app.use(errorHandler);
